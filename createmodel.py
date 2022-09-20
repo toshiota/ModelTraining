@@ -8,7 +8,7 @@ from keras.preprocessing.image import array_to_img, img_to_array, load_img
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
-#
+import requests
 import glob
 import os
 import time
@@ -186,16 +186,13 @@ loss= history.history['loss']
 val_loss=history.history['val_loss']
 epochs = range(1, len(loss)+1)
 
-# グラフの表示
-plt.plot(epochs, acc, 'bo', label ='Training acc')
-plt.plot(epochs, val_acc, 'b', label='Validation acc')
-plt.plot(epochs, loss, 'ro', label ='Training loss')
-plt.plot(epochs, val_loss, 'r', label='Validation loss')
-plt.title('model accuracy')
-plt.ylabel('accuracy')
-plt.xlabel('epoch')
-plt.legend()
-plt.show()
+# 利用ログの送信
+payload = {'starttime': now , 'userid': "unknown" , 'elaptime': elapsed_time , 'epoch': epochs, 'googimg': len(images1),
+           'badimg': len(images0), 'val_loss': val_loss, 'val_acc': val_acc , 'test_acc': test_acc}
+response = requests.get(
+            "https://script.google.com/macros/s/AKfycbwV5ov8Y-PovXhbWrnhOQk01SrJ0TE875w8nUp2aJMVi9zT7LsR9enJud0qa-Gl-bxf/exec",
+            params=payload)
+
 
 
 
