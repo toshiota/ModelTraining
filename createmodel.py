@@ -196,9 +196,6 @@ plt.ylabel('accuracy')
 plt.xlabel('epoch')
 plt.legend()
 plt.show()
-from google.colab import files
-files.download(now.strftime(now.strftime('%Y%m%d_%H%M')+'model_output.h5' ))
-
 
 
 
