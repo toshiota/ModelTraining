@@ -18,7 +18,7 @@ from google.colab import files
 
 print(tf.__version__)
 print(tf.test.gpu_device_name())
-now = datetime.datetime.now()
+now = datetime.datetime.now()+ datetime.timedelta(hours=9)
 
 X = []
 Y = []
