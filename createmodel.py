@@ -167,7 +167,7 @@ val_loss=history.history['val_loss']
 epochs = range(1, len(loss)+1)
 
 # 利用ログの送信
-payload = {'starttime': now , 'userid': "unknown" , 'elaptime': elapsed_time , 'epoch': len(loss), 'googimg': len(images1),
+payload = {'starttime': now , 'userid': zipfile[0][:-4] , 'elaptime': elapsed_time , 'epoch': len(loss), 'googimg': len(images1),
            'badimg': len(images0), 'val_loss': val_loss, 'val_acc': val_acc , 'test_acc': test_acc}
 response = requests.get(
             "https://script.google.com/macros/s/AKfycbwV5ov8Y-PovXhbWrnhOQk01SrJ0TE875w8nUp2aJMVi9zT7LsR9enJud0qa-Gl-bxf/exec",
