@@ -20,14 +20,16 @@ print(tf.__version__)
 print(tf.test.gpu_device_name())
 now = datetime.datetime.now()+ datetime.timedelta(hours=9)
 
+#zipファイル解凍
+zipfile=glob.glob(os.path.join("*.zip"))
+shutil.unpack_archive(zipfile[0], 'images')
+#解凍した画像の読み込み
+
 X = []
 Y = []
 
 # BADの画像#
-images0 = glob.glob(os.path.join('/content/bad', "*.jpg"))
-
-#images0= files.upload()
-
+images0 = glob.glob(os.path.join('/content/images/bad', "*.jpg"))
 targetsize=(128,128)
 
 for i in range(len(images0)):
@@ -48,12 +50,10 @@ for i in range(len(images0)):
     X.append(img_to_array(img7))
     X.append(img_to_array(img8))
     Y.extend([0, 0, 0, 0, 0, 0, 0, 0])
-
-
 print("1/3 BAD Load" ,i,  len(X))
 
 # Goodの画像
-images1 = glob.glob(os.path.join('/content/good', "*.jpg"))
+images1 = glob.glob(os.path.join('/content/images/good', "*.jpg"))
 for i in range(len(images1)):
     img = img_to_array(load_img(images1[i], grayscale=False, target_size=targetsize))
     img2 = cv2.flip(img, 0)
@@ -74,8 +74,6 @@ for i in range(len(images1)):
     Y.extend([1, 1, 1, 1, 1, 1, 1, 1])
 
 print("2/3 Good Load", i, len(X))
-
-
 
 # Doubleの画像
 images4 = glob.glob(os.path.join('/content/double', "*.jpg"))
@@ -99,23 +97,13 @@ for i in range(len(images4)):
     Y.extend([4, 4, 4, 4, 4, 4, 4, 4])
 print("3/3 Double Load",i, len(X))
 
-
-
 # arrayに変換
 X = np.asarray(X)
 Y = np.asarray(Y)
 
-# クラスの形式を変換
-
-
 # 学習用データとテストデータ
 train_images, test_images, train_labels, test_labels = train_test_split(X, Y, test_size=0.15, random_state=111)
 
-#/Users/Toshi/PycharmProjects/TEST0001/BeanTRAIN
-
-class_names = ['OMOTE_Bad', 'OMOTE_Good', 'URA_Bad', 'URA_Good', 'Double']
-
-#train_images = train_images.astype('float32')
 
 train_images = (train_images / 255.0 *0.99)+0.01
 test_images = (test_images / 255.0 *0.990 )+0.01
@@ -151,10 +139,6 @@ model.add(tf.keras.layers.Flatten())
 model.add(tf.keras.layers.Dense(256, activation='relu'))
 model.add(tf.keras.layers.Dense(5, activation='softmax'))
 
-#MobileNET
-#model = tf.keras.applications.MobileNet(input_shape=(64, 64, 3), alpha=1.0, depth_multiplier=1, weights=None, classes=5)
-#model = tf.keras.applications.MobileNetV2(input_shape=(64, 64, 3), alpha=1.0, weights=None, classes=5)
-
 #callback設定
 savefilename =  now.strftime('%Y%m%d_%H%M')+'model_output.h5' 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ファイル名！！！！
@@ -167,15 +151,10 @@ model.compile(loss='binary_crossentropy', optimizer='rmsprop',  metrics=['accura
 tf.global_variables_initializer()
 history = model.fit(train_images, train_labels, batch_size=32, epochs=200,callbacks=callbacklist, validation_data= (test_images,test_labels))
 
-#model.save(savefilename)    #■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■　　ファイル名変更！！！
-
 print(model.summary())
 
 elapsed_time = time.time() - start
 print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
-
-
-
 
 #　Evaluate accuracy
 test_loss, test_acc = model.evaluate(test_images, test_labels)
