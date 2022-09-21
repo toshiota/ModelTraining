@@ -15,6 +15,7 @@ import time
 import datetime
 from PIL import Image,ImageOps
 from google.colab import files
+import shutil
 
 print(tf.__version__)
 print(tf.test.gpu_device_name())
@@ -140,7 +141,7 @@ model.add(tf.keras.layers.Dense(256, activation='relu'))
 model.add(tf.keras.layers.Dense(5, activation='softmax'))
 
 #callback設定
-savefilename =  now.strftime('%Y%m%d_%H%M')+'model_output.h5' 
+savefilename =  now.strftime('%Y%m%d_%H%M') +zipfile[0][:-4] +'.h5' 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ファイル名！！！！
 callbacklist= [tf.keras.callbacks.EarlyStopping(monitor='val_acc',patience=30),
                tf.keras.callbacks.ModelCheckpoint(filepath=savefilename,monitor='val_loss',mode='min',verbose=1,save_best_only=True, ),]
