@@ -172,5 +172,5 @@ response = requests.get(
             "https://script.google.com/macros/s/AKfycbwV5ov8Y-PovXhbWrnhOQk01SrJ0TE875w8nUp2aJMVi9zT7LsR9enJud0qa-Gl-bxf/exec",
             params=payload)
 
-
+print(" Complete making Machine learning model !!")
 
