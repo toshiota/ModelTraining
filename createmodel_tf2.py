@@ -124,6 +124,7 @@ start = time.time()
 
 #通常のモデル作成　Compile the model
 model = tf.keras.Sequential()
+model.call = tf.function(model.call)
 model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=3, padding='same', activation='relu', input_shape=(128, 128, 3)))
 model.add(tf.keras.layers.MaxPooling2D(pool_size=5))
 model.add(tf.keras.layers.Dropout(0.5))
