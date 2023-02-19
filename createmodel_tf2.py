@@ -160,7 +160,7 @@ print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 #　Evaluate accuracy
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 print('Test accuracy:', test_acc)
-val_acc=history.history['val_acc']
+val_acc=history.history['val_accuracy']
 loss= history.history['loss']
 val_loss=history.history['val_loss']
 epochs = range(1, len(loss)+1)
