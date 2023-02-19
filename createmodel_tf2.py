@@ -19,18 +19,18 @@ import shutil
 print(tf.__version__)
 print(tf.test.gpu_device_name())
 now = datetime.datetime.now()+ datetime.timedelta(hours=9)
-"""
+
 #zipファイル解凍
 zipfile=glob.glob(os.path.join("*.zip"))
 shutil.unpack_archive(zipfile[0], 'images')
 #解凍した画像の読み込み
-"""
+
 
 X = []
 Y = []
 
 # BADの画像#
-images0 = glob.glob(os.path.join('./good', "*.jpg"))
+images0 = glob.glob(os.path.join('/content/images/bad', "*.jpg"))
 targetsize=(128,128)
 print(len(images0))
 for i in range(len(images0)):
